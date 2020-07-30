@@ -9,9 +9,7 @@ namespace Data
         public DbSet<User> User { get; set; }
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Data Source=tcp:localhost,1433;Initial Catalog=Database;User Id=sa;Password=J39eta2jk6A7f945bdfd;");
-        }
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+            => options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Database=Application;Integrated Security=True;TrustServerCertificate=False;");
     }
 }

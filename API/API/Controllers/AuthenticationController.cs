@@ -36,7 +36,7 @@ namespace API.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost("authenticate")]
-        public async Task<JsonResult> AuthenticateAsync([FromForm] AuthenticationModel creds)
+        public async Task<JsonResult> AuthenticateAsync([FromBody] AuthenticationModel creds)
         {
             var user = _authenticationService.Authenticate(creds.Email, creds.Password);
             if (!ValidateLogin(creds) || user == null)

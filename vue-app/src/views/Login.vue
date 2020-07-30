@@ -57,7 +57,7 @@
 <script>
 import { mapActions } from "vuex";
 export default {
-    data() {
+  data() {
     return {
       form: {
         Email: "",
@@ -69,12 +69,22 @@ export default {
   methods: {
     ...mapActions("context", ["login"]),
     onSubmit() {
-      const formData = new FormData();
-      formData.append('email', this.form.Email);
-      formData.append('password', this.form.Password)
-      this.login({
-        creds: formData,
-      }).then(router.push("/"));
+      this.login({ credentials: this.form }).then(console.log('hello'));
+
+      // const resp = fetch(
+      //   "https://localhost:44334/Authentication/authenticate",
+      //   {
+      //     method: "post",
+      //     body: JSON.stringify(this.form),
+      //     headers: {
+      //       "Content-type": "application/json",
+      //       Accept: '*/*'
+      //     },
+      //   }
+      // ).then(() => {
+      //   commit("setProfile", resp);
+      // });
+      // event.preventDefault();
     },
   },
 };
