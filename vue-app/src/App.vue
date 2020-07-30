@@ -1,13 +1,27 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <Navbar/>
     <router-view/>
   </div>
 </template>
 
+<script>
+import Navbar from '../src/components/Navbar'
+import {mapActions} from 'vuex'
+export default {
+  components: {
+    Navbar
+  },
+  created () {
+    this.restoreContext()
+  },
+  methods: {
+    ...mapActions('context', [
+      'restoreContext'
+    ])
+  }
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
