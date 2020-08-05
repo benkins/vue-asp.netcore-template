@@ -16,7 +16,7 @@ export default {
     this.restoreContext()
   },
   methods: {
-    ...mapActions('context', [
+    ...mapActions([
       'restoreContext'
     ])
   }

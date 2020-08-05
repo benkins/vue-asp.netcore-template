@@ -36,10 +36,10 @@ namespace API.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost("authenticate")]
-        public async Task<JsonResult> AuthenticateAsync([FromBody] AuthenticationModel creds)
+        public async Task<JsonResult> AuthenticateAsync([FromBody]AuthenticationModel creds)
         {
             var user = _authenticationService.Authenticate(creds.Email, creds.Password);
-            if (!ValidateLogin(creds) || user == null)
+            if (!ValidateLogin(creds.Email, creds.Password) || user == null)
             {
                 return Json(new
                 {
@@ -104,10 +104,10 @@ namespace API.Controllers
         // With JWT you would rather avoid that to prevent cookies being set and use: 
         //  _signInManager.UserManager.FindByEmailAsync(email);
         //  _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: false);
-        private bool ValidateLogin(AuthenticationModel user)
+        private bool ValidateLogin(string email, string password)
         {
 
-            if (user.Email == null || user.Password == null)
+            if (email == null || password == null)
             {
                 return false;
             }

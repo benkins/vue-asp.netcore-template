@@ -55,7 +55,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
+import router from "../router/index";
 export default {
   data() {
     return {
@@ -67,24 +68,35 @@ export default {
   },
 
   methods: {
-    ...mapActions("context", ["login"]),
-    onSubmit() {
-      this.login({ credentials: this.form }).then(console.log('hello'));
-
-      // const resp = fetch(
-      //   "https://localhost:44334/Authentication/authenticate",
-      //   {
-      //     method: "post",
-      //     body: JSON.stringify(this.form),
-      //     headers: {
-      //       "Content-type": "application/json",
-      //       Accept: '*/*'
-      //     },
-      //   }
-      // ).then(() => {
-      //   commit("setProfile", resp);
-      // });
-      // event.preventDefault();
+    ...mapActions(['login']),
+    async onSubmit() {
+      const loginRequestBody = {
+        email: this.form.Email,
+        password: this.form.Password,
+      };
+      await fetch(
+        "https://localhost:5001/Authentication/authenticate/",
+        {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "*/*",
+          },
+          credentials: "same-origin",
+          body: JSON.stringify(loginRequestBody),
+        }
+      )
+        .then(response => {
+          // The response is a Response instance.
+          // You parse the data into a useable format using `.json()`
+          return response.json();
+        })
+        .then(data => {
+          // `data` is the parsed version of the JSON returned from the above endpoint.
+          this.$store.dispatch('login', { profile: data });
+        });
+      
+      router.push("/");
     },
   },
 };
