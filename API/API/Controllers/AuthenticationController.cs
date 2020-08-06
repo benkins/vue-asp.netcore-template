@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using API.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -30,15 +31,15 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Controller to login
+        /// Authenticates a user on login
         /// </summary>
-        /// <param name="credentials">Email and password</param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost("authenticate")]
-        public async Task<JsonResult> AuthenticateAsync([FromBody] UserModel credentials)
+        public async Task<JsonResult> AuthenticateAsync([FromBody]AuthenticationModel creds)
         {
-            var user = _authenticationService.Authenticate(credentials.Email, credentials.Password);
-            if (!ValidateLogin(credentials) || user == null)
+            var user = _authenticationService.Authenticate(creds.Email, creds.Password);
+            if (!ValidateLogin(creds.Email, creds.Password) || user == null)
             {
                 return Json(new
                 {
@@ -55,6 +56,7 @@ namespace API.Controllers
                 email = principal.FindFirstValue(ClaimTypes.Email),
                 role = principal.FindFirstValue(ClaimTypes.Role)
             });
+
         }
 
         /// <summary>
@@ -102,10 +104,10 @@ namespace API.Controllers
         // With JWT you would rather avoid that to prevent cookies being set and use: 
         //  _signInManager.UserManager.FindByEmailAsync(email);
         //  _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: false);
-        private bool ValidateLogin(UserModel user)
+        private bool ValidateLogin(string email, string password)
         {
 
-            if (user.Email == null || user.Password == null)
+            if (email == null || password == null)
             {
                 return false;
             }
