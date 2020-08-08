@@ -36,8 +36,13 @@ const store = new Vuex.Store({
         headers: {
           "Content-Type": "application/json",
         },
-      }).then((res) => {
-        commit("setProfile", res.json);
+      })
+      .then(response => {
+        // The response is a Response instance.
+        // You parse the data into a useable format using `.json()`
+        return response.json();
+      }).then(data => {
+        commit("setProfile", data);
       });
     },
   },

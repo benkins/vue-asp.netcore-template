@@ -28,7 +28,7 @@
               <b-dropdown-item>
                 <router-link to="/profile" class="nav-item">Profile</router-link>
               </b-dropdown-item>
-              <b-dropdown-item>Sign Out</b-dropdown-item>
+              <b-dropdown-item @click="logOut()">Sign Out</b-dropdown-item>
             </div>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -39,6 +39,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import router from '../router';
 
 export default {
   computed: {
@@ -47,9 +48,10 @@ export default {
 
   methods: {
     ...mapActions(["logout"]),
-    blahBlah() {
-      console.log(this.isAuthenticated)
-    }
+  logOut(){
+    this.logout();
+    router.push('/')
+  }
   },
 };
 </script>
