@@ -5,14 +5,18 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    profile: {},
+    profile: {
+      name: '',
+      email: ''
+    }
   },
   getters: {
-    isAuthenticated: (state) => state.profile.name && state.profile.email,
+    isAuthenticated: (state) => state.profile.name && state.profile.email 
   },
   mutations: {
     setProfile(state, profile) {
-      state.profile = profile;
+      state.profile.name = profile.profile.name;
+      state.profile.email = profile.profile.email;
     },
   },
   actions: {

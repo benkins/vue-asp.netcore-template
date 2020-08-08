@@ -96,7 +96,7 @@ export default {
           this.$store.dispatch('login', { profile: data });
         });
       
-      router.push("/");
+      //router.push("/");
     },
   },
 };

@@ -16,12 +16,15 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
             <template v-slot:button-content>User</template>
-            <div>
+            <div v-if="!this.isAuthenticated">
               <b-dropdown-item>
                 <router-link to="/login" class="nav-item">Log in</router-link>
               </b-dropdown-item>
+              <b-dropdown-item @click="blahBlah()">
+                authentiated
+              </b-dropdown-item>
             </div>
-            <div>
+            <div v-if="this.isAuthenticated">
               <b-dropdown-item>
                 <router-link to="/profile" class="nav-item">Profile</router-link>
               </b-dropdown-item>
@@ -35,15 +38,18 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   computed: {
-    ...mapState("context", ["profile"]),
-    ...mapGetters("context", ["isAuthenticated"]),
+    ...mapGetters(["isAuthenticated"]),
   },
+
   methods: {
-    ...mapActions("context", ["logout"]),
+    ...mapActions(["logout"]),
+    blahBlah() {
+      console.log(this.isAuthenticated)
+    }
   },
 };
 </script>
